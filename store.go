@@ -5,4 +5,5 @@ type UsersStore interface {
 	Update(user *UserUpdate) (*User, error)
 	Delete(id string) error
 	Get(id string) (*User, error)
+	List() ([]User, error)
 }

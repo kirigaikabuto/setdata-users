@@ -7,6 +7,7 @@ import (
 type User struct {
 	Id        string       `json:"id"`
 	Username  string       `json:"username"`
+	Password  string       `json:"password"`
 	Email     string       `json:"email"`
 	LoginType cm.LoginType `json:"login_type"`
 	FirstName string       `json:"first_name"`
@@ -16,6 +17,7 @@ type User struct {
 type UserUpdate struct {
 	Id        string        `json:"id"`
 	Username  *string       `json:"username"`
+	Password  *string       `json:"password"`
 	Email     *string       `json:"email"`
 	LoginType *cm.LoginType `json:"login_type"`
 	FirstName *string       `json:"first_name"`
