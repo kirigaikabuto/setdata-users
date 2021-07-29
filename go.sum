@@ -1,2 +1,6 @@
 github.com/kirigaikabuto/setdata-common v1.0.0 h1:9mw95vHMnGdNt2yMQEuZ9hctdUTXKgdPMqluax4P01U=
 github.com/kirigaikabuto/setdata-common v1.0.0/go.mod h1:csYDSKceHXbknLLUg+nDRjY3FbLNG1mucO9cg5sNbzs=
+github.com/kirigaikabuto/setdata-common v1.0.1-0.20210728163309-9ead53ad3a54 h1:ilGVgBSttMudemxAQ0Sy1Xx6u4m3ShZJES8l4JIlTXg=
+github.com/kirigaikabuto/setdata-common v1.0.1-0.20210728163309-9ead53ad3a54/go.mod h1:csYDSKceHXbknLLUg+nDRjY3FbLNG1mucO9cg5sNbzs=
+github.com/lib/pq v1.10.2 h1:AqzbZs4ZoCBp+GtejcpCpcxM3zlSMx29dXbUSeVtJb8=
+github.com/lib/pq v1.10.2/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
