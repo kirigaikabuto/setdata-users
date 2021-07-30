@@ -1,11 +1,11 @@
 package setdata_users
 
 type CreateUserCommand struct {
-	Username    string `json:"username"`
-	Password    string `json:"password"`
-	Email       string `json:"email"`
-	FirstName   string `json:"first_name"`
-	LastName    string `json:"last_name"`
+	Username  string `json:"username"`
+	Password  string `json:"password"`
+	Email     string `json:"email"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
 }
 
 func (cmd *CreateUserCommand) Exec(svc interface{}) (interface{}, error) {
@@ -13,12 +13,12 @@ func (cmd *CreateUserCommand) Exec(svc interface{}) (interface{}, error) {
 }
 
 type UpdateUserCommand struct {
-	Id          string `json:"id"`
-	Username    string `json:"username"`
-	Password    string `json:"password"`
-	Email       string `json:"email"`
-	FirstName   string `json:"first_name"`
-	LastName    string `json:"last_name"`
+	Id        string `json:"id"`
+	Username  string `json:"username"`
+	Password  string `json:"password"`
+	Email     string `json:"email"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
 }
 
 func (cmd *UpdateUserCommand) Exec(svc interface{}) (interface{}, error) {
@@ -26,7 +26,7 @@ func (cmd *UpdateUserCommand) Exec(svc interface{}) (interface{}, error) {
 }
 
 type DeleteUserCommand struct {
-	Id          string `json:"id"`
+	Id string `json:"id"`
 }
 
 func (cmd *DeleteUserCommand) Exec(svc interface{}) (interface{}, error) {
@@ -34,7 +34,7 @@ func (cmd *DeleteUserCommand) Exec(svc interface{}) (interface{}, error) {
 }
 
 type GetUserCommand struct {
-	Id          string `json:"id"`
+	Id string `json:"id"`
 }
 
 func (cmd *GetUserCommand) Exec(svc interface{}) (interface{}, error) {
@@ -42,7 +42,6 @@ func (cmd *GetUserCommand) Exec(svc interface{}) (interface{}, error) {
 }
 
 type ListUserCommand struct {
-
 }
 
 func (cmd *ListUserCommand) Exec(svc interface{}) (interface{}, error) {
