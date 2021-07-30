@@ -1,7 +1,6 @@
 package setdata_users
 
 type CreateUserCommand struct {
-	SuperUserId string `json:"super_user_id"`
 	Username    string `json:"username"`
 	Password    string `json:"password"`
 	Email       string `json:"email"`
@@ -14,7 +13,6 @@ func (cmd *CreateUserCommand) Exec(svc interface{}) (interface{}, error) {
 }
 
 type UpdateUserCommand struct {
-	SuperUserId string `json:"super_user_id"`
 	Id          string `json:"id"`
 	Username    string `json:"username"`
 	Password    string `json:"password"`
@@ -28,15 +26,34 @@ func (cmd *UpdateUserCommand) Exec(svc interface{}) (interface{}, error) {
 }
 
 type DeleteUserCommand struct {
-	SuperUserId string `json:"super_user_id"`
 	Id          string `json:"id"`
+}
+
+func (cmd *DeleteUserCommand) Exec(svc interface{}) (interface{}, error) {
+	return nil, svc.(UserService).DeleteUser(cmd)
 }
 
 type GetUserCommand struct {
-	SuperUserId string `json:"super_user_id"`
 	Id          string `json:"id"`
 }
 
+func (cmd *GetUserCommand) Exec(svc interface{}) (interface{}, error) {
+	return svc.(UserService).GetUser(cmd)
+}
+
 type ListUserCommand struct {
-	SuperUserId string `json:"super_user_id"`
+
+}
+
+func (cmd *ListUserCommand) Exec(svc interface{}) (interface{}, error) {
+	return svc.(UserService).ListUser(cmd)
+}
+
+type GetUserByUsernameAndPassword struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+func (cmd *GetUserByUsernameAndPassword) Exec(svc interface{}) (interface{}, error) {
+	return svc.(UserService).GetUserByUsernameAndPassword(cmd)
 }

@@ -6,4 +6,5 @@ type UsersStore interface {
 	Delete(id string) error
 	Get(id string) (*User, error)
 	List() ([]User, error)
+	GetByUsernameAndPassword(username, password string) (*User, error)
 }

@@ -7,10 +7,16 @@ import (
 )
 
 var (
-	store UsersStore
-	err   error
-	Id    = "122222"
+	store          UsersStore
+	service        UserService
+	err            error
+	Id             = "122222"
+	commandHandler setdata_common.CommandHandler
+	username       = "3333"
+	password       = "secret"
 )
+
+//testService
 
 func TestUserService_CreateUser(t *testing.T) {
 	config := PostgresConfig{
@@ -26,11 +32,11 @@ func TestUserService_CreateUser(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	service := NewUserService(store)
-	commandHandler := setdata_common.NewCommandHandler(service)
+	service = NewUserService(store)
+	commandHandler = setdata_common.NewCommandHandler(service)
 	response, err := commandHandler.ExecCommand(&CreateUserCommand{
-		Username:  "2222",
-		Password:  "2222",
+		Username:  username,
+		Password:  password,
 		Email:     "2222",
 		FirstName: "222",
 		LastName:  "2222",
@@ -40,9 +46,33 @@ func TestUserService_CreateUser(t *testing.T) {
 		return
 	}
 	fmt.Println(response)
+	Id = response.(*User).Id
 }
 
-//
+func TestUserService_UpdateUser(t *testing.T) {
+	cmd := &UpdateUserCommand{Id: Id, LastName: "tleugazy", Email: "tleugazy98@gmail.com", FirstName: "122334444"}
+	response, err := commandHandler.ExecCommand(cmd)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	fmt.Println(response)
+}
+
+func TestUserService_GetUserByUsernameAndPassword(t *testing.T) {
+	cmd := &GetUserByUsernameAndPassword{
+		Username: username,
+		Password: password,
+	}
+	response, err := commandHandler.ExecCommand(cmd)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	fmt.Println(response)
+}
+
+//test store
 //func TestUsersStore_Create(t *testing.T) {
 //	config := PostgresConfig{
 //		Host:     "localhost",

@@ -2,6 +2,8 @@ package setdata_users
 
 import (
 	"database/sql"
+	"fmt"
+	setdata_common "github.com/kirigaikabuto/setdata-common"
 	_ "github.com/lib/pq"
 	"log"
 	"strconv"
@@ -157,4 +159,22 @@ func (u *usersStore) List() ([]User, error) {
 		users = append(users, user)
 	}
 	return users, nil
+}
+
+func (u *usersStore) GetByUsernameAndPassword(username, password string) (*User, error) {
+	user := &User{}
+	err := u.db.QueryRow("select id, username, password, email, login_type, first_name, last_name "+
+		"from users where username = $1 limit 1", username).
+		Scan(&user.Id, &user.Username, &user.Password, &user.Email, &user.LoginType, &user.FirstName, &user.LastName)
+	if err == sql.ErrNoRows {
+		return nil, ErrUserNotFound
+	} else if err != nil {
+		return nil, err
+	}
+	fmt.Println(user.Password)
+	compare := setdata_common.CheckPasswordHash(password, user.Password)
+	if !compare {
+		return nil, ErrUserPasswordNotCorrect
+	}
+	return user, nil
 }

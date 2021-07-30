@@ -11,6 +11,7 @@ type UserService interface {
 	DeleteUser(cmd *DeleteUserCommand) error
 	GetUser(cmd *GetUserCommand) (*User, error)
 	ListUser(cmd *ListUserCommand) ([]User, error)
+	GetUserByUsernameAndPassword(cmd *GetUserByUsernameAndPassword) (*User, error)
 }
 
 type userService struct {
@@ -25,27 +26,66 @@ func (u *userService) CreateUser(cmd *CreateUserCommand) (*User, error) {
 	user := &User{
 		Id:        uuid.New().String(),
 		Username:  cmd.Username,
-		Password:  cmd.Password,
 		FirstName: cmd.FirstName,
 		LastName:  cmd.LastName,
 		Email:     cmd.Email,
 		LoginType: setdata_common.Email,
 	}
+	hashedPassword, err := setdata_common.HashPassword(user.Password)
+	if err != nil {
+		return nil, err
+	}
+	user.Password = hashedPassword
 	return u.userStore.Create(user)
 }
 
 func (u *userService) UpdateUser(cmd *UpdateUserCommand) (*User, error) {
-	return nil, nil
+	if cmd.Id == "" {
+		return nil, ErrUserIdNotProvided
+	}
+	oldUser, err := u.GetUser(&GetUserCommand{
+		Id: cmd.Id,
+	})
+	if err != nil {
+		return nil, err
+	}
+	userUpdate := &UserUpdate{Id: cmd.Id}
+	if cmd.Password != "" {
+		hashedPassword, err := setdata_common.HashPassword(cmd.Password)
+		if err != nil {
+			return nil, err
+		}
+		if oldUser.Password != hashedPassword {
+			userUpdate.Password = &hashedPassword
+		}
+	}
+	if cmd.FirstName != "" && cmd.FirstName != oldUser.FirstName {
+		userUpdate.FirstName = &cmd.FirstName
+	}
+	if cmd.LastName != "" && cmd.LastName != oldUser.LastName {
+		userUpdate.LastName = &cmd.LastName
+	}
+	if cmd.Username != "" && cmd.Username != oldUser.Username {
+		userUpdate.Username = &cmd.Username
+	}
+	if cmd.Email != "" && cmd.Email != oldUser.Email {
+		userUpdate.Email = &cmd.Email
+	}
+	return u.userStore.Update(userUpdate)
 }
 
 func (u *userService) DeleteUser(cmd *DeleteUserCommand) error {
-	return nil
+	return u.userStore.Delete(cmd.Id)
 }
 
 func (u *userService) GetUser(cmd *GetUserCommand) (*User, error) {
-	return nil, nil
+	return u.userStore.Get(cmd.Id)
 }
 
 func (u *userService) ListUser(cmd *ListUserCommand) ([]User, error) {
-	return nil, nil
+	return u.userStore.List()
+}
+
+func (u *userService) GetUserByUsernameAndPassword(cmd *GetUserByUsernameAndPassword) (*User, error) {
+	return u.userStore.GetByUsernameAndPassword(cmd.Username, cmd.Password)
 }
