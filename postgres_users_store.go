@@ -2,7 +2,6 @@ package setdata_users
 
 import (
 	"database/sql"
-	"fmt"
 	setdata_common "github.com/kirigaikabuto/setdata-common"
 	_ "github.com/lib/pq"
 	"log"
@@ -171,7 +170,6 @@ func (u *usersStore) GetByUsernameAndPassword(username, password string) (*User,
 	} else if err != nil {
 		return nil, err
 	}
-	fmt.Println(user)
 	compare := setdata_common.CheckPasswordHash(password, user.Password)
 	if !compare {
 		return nil, ErrUserPasswordNotCorrect
