@@ -108,3 +108,22 @@ func (u *UserAmqpEndpoints) MakeDeleteUserAmqpEndpoint() amqp.Handler {
 		return &amqp.Message{Body: jsonData}
 	}
 }
+
+func (u *UserAmqpEndpoints) MakeListUserAmqpEndpoint() amqp.Handler {
+	return func(message amqp.Message) *amqp.Message {
+		cmd := &ListUserCommand{}
+		err := json.Unmarshal(message.Body, cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		response, err := u.ch.ExecCommand(cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		jsonData, err := json.Marshal(response)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		return &amqp.Message{Body: jsonData}
+	}
+}
